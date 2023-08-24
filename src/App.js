@@ -6,13 +6,15 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import ProtectedRoute from './utils/ProtectedRoute';
-
+import { Toaster } from 'react-hot-toast';
 function App() {
   const { isAuthenticated } = useAuth();
 
   return (
-   
+<>
+
     <Routes>
+      
         <Route path="/" element={
         <ProtectedRoute>
         <Home/>
@@ -21,7 +23,7 @@ function App() {
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>} />
     </Routes>
-   
+    </>
   );
 }
 

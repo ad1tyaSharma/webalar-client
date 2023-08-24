@@ -1,6 +1,48 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+
 const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confPassword, setConfPassword] = useState('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('/api/register', {
+        email,
+        password,
+      });
+
+      // Registration successful
+      toast.success('Registration successful!!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      
+    } catch (error) {
+      // Registration failed
+      toast.error('Registration failed. Please try again.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      console.error('Login error:', error);
+    }
+  };
     return (
         <div class="container">
    <section class=" w-1/2 z-10">

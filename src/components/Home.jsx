@@ -3,6 +3,7 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import ContactCard from './ContactCard';
 import Popup from './Popup';
+import { Toaster } from 'react-hot-toast';
 const Home = () => {
     const [contacts, setContacts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -174,6 +175,8 @@ const Home = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
     return (
     <div class="container py-5">
+      <Toaster position="top-right" reverseOrder={false}/>
+
         <div className='w-5/6 bg-slate-50 rounded-xl h-5/6 z-10 mt-16 mb-16 min-h-screen' >
             <Navbar></Navbar>
             <div className="w-5/6 mx-auto">
