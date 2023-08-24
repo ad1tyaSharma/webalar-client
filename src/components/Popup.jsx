@@ -58,11 +58,22 @@ const Popup = ({ contact, onClose, onSave }) => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave =async () => {
     if (uploadedImage) {
-      setEditedContact((prevContact) => ({
+      //console.log(1);
+     await setEditedContact((prevContact) => ({
         ...prevContact,
         profilePic: uploadedImage,
+      }));
+      //console.log(editedContact);
+
+      
+    }
+    else {
+      //console.log(0);
+      setEditedContact((prevContact) => ({
+        ...prevContact,
+        profilePic: "https://res.cloudinary.com/dnhslyteh/image/upload/v1692808859/male-profile-flat-blue-simple-icon-with-long-shadow_esfk41.jpg",
       }));
     }
     if(!validateEmail(editedContact.email))
@@ -104,12 +115,7 @@ const Popup = ({ contact, onClose, onSave }) => {
       });
       return;
     }
-    if(!editedContact.profilePic && uploadedImage) {
-      setEditedContact((prevContact) => ({
-        ...prevContact,
-        profilePic: "https://res.cloudinary.com/dnhslyteh/image/upload/v1692808859/male-profile-flat-blue-simple-icon-with-long-shadow_esfk41.jpg",
-      }));
-    }
+    
     onSave(editedContact);
     onClose();
   };

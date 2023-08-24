@@ -126,7 +126,6 @@ const Home = () => {
               console.error("Error editing contact:", error);
             });
         } else {
-
           axios.post(`${process.env.REACT_APP_API_URL}/contact/create`, {...editedContact,createdBy: user._id})
             .then(response => {
               toast.success("Contact Created!", {
@@ -140,7 +139,7 @@ const Home = () => {
               });
               console.log(response.data);
               setContacts([...contacts, response.data.contact]);
-              navigate('/')
+              //navigate('/')
             })
             .catch(error => {
               toast.error("Error creating contact.", {
