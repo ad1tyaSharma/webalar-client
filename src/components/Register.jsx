@@ -26,7 +26,7 @@ const Register = () => {
 
       
       // Upload the image to Cloudinary
-      fetch('https://api.cloudinary.com/v1_1/dnhslyteh/image/upload', {
+      fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`, {
         method: 'POST',
         body: formData,
       })
