@@ -322,7 +322,7 @@ const Home = () => {
             key={contact._id}
             contact={contact}
             isSelected={selectedContactId === contact._id}
-            onSelect={() => openPopup()}
+            onSelect={() => {}}
             onEdit={() => handleEdit(contact)}
             onDelete={() => handleDelete(contact._id)}
             />
