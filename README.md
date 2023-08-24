@@ -29,7 +29,7 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ## Deployment
 
-The app is deployed on [Render](https://webalar-client.onrender.com) (or your preferred platform). Check out the deployment section for more details.
+The app is deployed on [Render](https://webalar-client.onrender.com). Check out the deployment section for more details.
 
 ## License
 
