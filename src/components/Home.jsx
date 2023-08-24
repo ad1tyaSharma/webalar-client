@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 import Navbar from './Navbar';
 import ContactCard from './ContactCard';
@@ -8,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Toaster } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 const Home = () => {
+  const navigate = useNavigate();
     const [contacts, setContacts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedContactId, setSelectedContactId] = useState(null);
@@ -95,8 +98,9 @@ const Home = () => {
             'Content-Type': 'application/json', 
           },})
             .then(response => {
+              //console.log(response.data);
               const updatedContacts = contacts.map(contact =>
-                contact._id === response.data.id ? response.data : contact
+                contact._id === response.data._id ? response.data : contact
               );
               toast.success("Contact Edited!", {
                 position: "top-right",
@@ -134,7 +138,9 @@ const Home = () => {
                 draggable: true,
                 progress: undefined,
               });
-              setContacts([...contacts, response.data]);
+              console.log(response.data);
+              setContacts([...contacts, response.data.contact]);
+              navigate('/')
             })
             .catch(error => {
               toast.error("Error creating contact.", {
@@ -229,7 +235,7 @@ const Home = () => {
  
   
     const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+     contact.name && contact.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   
  

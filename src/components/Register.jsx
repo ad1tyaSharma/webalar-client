@@ -123,7 +123,7 @@ const Register = () => {
           email,
           name,
           password,
-          profilePic : setImagePublicId || "https://res.cloudinary.com/dnhslyteh/image/upload/v1692808859/male-profile-flat-blue-simple-icon-with-long-shadow_esfk41.jpg"
+          profilePic : imagePublicId || "https://res.cloudinary.com/dnhslyteh/image/upload/v1692808859/male-profile-flat-blue-simple-icon-with-long-shadow_esfk41.jpg"
         }),
       });
 
