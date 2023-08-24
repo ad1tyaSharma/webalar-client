@@ -3,7 +3,10 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import ContactCard from './ContactCard';
 import Popup from './Popup';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Toaster } from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 const Home = () => {
     const [contacts, setContacts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -14,21 +17,62 @@ const Home = () => {
     const [selectedContact, setSelectedContact] = useState(null);
     const [editingContact, setEditingContact] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const { logout,setuser,user } = useAuth();
  
-//   const openPopup = () => setIsPopupOpen(true);
-//   const closePopup = () => setIsPopupOpen(false);
-
+  const getUser = async(id)=>
+  {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/${id}`);
+      setuser(response.data.user);
+      //console.log(user);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  }
+  const getContacts = async(id)=>
+  {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/contact/allContacts`, {
+        createdBy : id
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setContacts(response.data);
+      //console.log(contacts);
+    } catch (error) {
+      console.error('Error fetching contact:', error);
+    }
+  }
   const handleEdit = (contact) => {
     //setEditingContact(contact);
     openPopup(contact);
   };
   const handleDelete = async (contactId) => {
     try {
-      await axios.delete(`/api/contacts/${contactId}`);
-      const updatedContacts = contacts.filter(contact => contact.id !== contactId);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/contact/delete/${contactId}`);
+      const updatedContacts = contacts.filter(contact => contact._id !== contactId);
       setContacts(updatedContacts);
+      toast.success("Contact Deleted!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
+      toast.error("Error deleting contact.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.error("Error deleting contact:", error);
     }
   };
@@ -47,23 +91,61 @@ const Home = () => {
     const handleSave = (editedContact) => {
         if (selectedContact) {
           // Edit existing contact
-          axios.put(`/api/contacts/${selectedContact.id}`, editedContact)
+          axios.put(`/contact/edit/${selectedContact._id}`, editedContact,{headers: {
+            'Content-Type': 'application/json', 
+          },})
             .then(response => {
               const updatedContacts = contacts.map(contact =>
-                contact.id === response.data.id ? response.data : contact
+                contact._id === response.data.id ? response.data : contact
               );
+              toast.success("Contact Edited!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
               setContacts(updatedContacts);
             })
             .catch(error => {
+              toast.error("Error editing contact.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
               console.error("Error editing contact:", error);
             });
         } else {
-          // Create new contact
-          axios.post('/api/contacts', editedContact)
+
+          axios.post(`${process.env.REACT_APP_API_URL}/contact/create`, {...editedContact,createdBy: user._id})
             .then(response => {
+              toast.success("Contact Created!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
               setContacts([...contacts, response.data]);
             })
             .catch(error => {
+              toast.error("Error creating contact.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
               console.error("Error creating contact:", error);
             });
         }
@@ -144,14 +226,9 @@ const Home = () => {
     // ... Repeat for 40 more entries ...
   ]
   
-    // useEffect(() => {
-    //   // Fetch contacts from your Node.js app using Axios
-    //   axios.get('/api/contacts').then(response => {
-    //     setContacts(response.data);
-    //   });
-    // }, []);
+ 
   
-    const filteredContacts = data.filter(contact =>
+    const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   
@@ -173,12 +250,22 @@ const Home = () => {
     );
   
     const paginate = pageNumber => setCurrentPage(pageNumber);
+    useEffect(() => {
+      const id = localStorage.getItem('userId');
+      if(id)
+      {
+        getUser(id)
+        getContacts(id)
+        //console.log(id);console.log(user);
+      }
+      else
+      logout()
+    }, []);
     return (
-    <div class="container py-5">
-      <Toaster position="top-right" reverseOrder={false}/>
+    <div className="container py-5">
 
         <div className='w-5/6 bg-slate-50 rounded-xl h-5/6 z-10 mt-16 mb-16 min-h-screen' >
-            <Navbar></Navbar>
+            <Navbar user={user?user : null}></Navbar>
             <div className="w-5/6 mx-auto">
             <div className="flex justify-end mt-2">
           <button
@@ -187,6 +274,13 @@ const Home = () => {
           >
             Create New Contact
           </button>
+         
+        </div>
+        <div className="flex justify-end mt-2">
+      
+          <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded-md">
+        Logout
+      </button>
         </div>
         <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
           Contact List
@@ -220,12 +314,12 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-full">
           {currentContacts.map(contact => (
             <ContactCard
-            key={contact.id}
+            key={contact._id}
             contact={contact}
-            isSelected={selectedContactId === contact.id}
+            isSelected={selectedContactId === contact._id}
             onSelect={() => openPopup()}
             onEdit={() => handleEdit(contact)}
-            onDelete={() => handleDelete(contact.id)}
+            onDelete={() => handleDelete(contact._id)}
             />
           ))}
         </div>
@@ -255,9 +349,9 @@ const Home = () => {
       </div>
             
         </div>
-   <div class="shape-blob"></div>
-   <div class="shape-blob one"></div>
-   <div class="shape-blob two"></div>
+   <div className="shape-blob"></div>
+   <div className="shape-blob one"></div>
+   <div className="shape-blob two"></div>
  </div>
     );
 }

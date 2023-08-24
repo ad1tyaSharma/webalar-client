@@ -2,8 +2,10 @@ import React from 'react'
 import {useAuth} from '../context/AuthContext'
 import {Navigate, useLocation} from "react-router-dom"
 
+
 const ProtectedRoute = ({children}) => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated} = useAuth();
+
     let location = useLocation();
     //console.log(isAuthenticated);
     if(!isAuthenticated) {

@@ -1,12 +1,32 @@
 import React, { useState } from 'react';
 import { Image } from 'cloudinary-react';
 import {v4} from "uuid";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Popup = ({ contact, onClose, onSave }) => {
   const [editedContact, setEditedContact] = useState({ ...contact });
   const [uploadedImage, setUploadedImage] = useState('');
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
+  const validateName = (name) => {
+    return name.length >= 3;
+  };
+  function validatePhoneNumber(phoneNumber) {
+    // Remove any non-digit characters from the input
+    const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
+  
+    // Define a regular expression pattern for a typical phone number
+    const phoneNumberPattern = /^\d{10}$/;
+  
+    // Test the input against the pattern
+    return phoneNumberPattern.test(cleanPhoneNumber);
+  }
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    
     setEditedContact((prevContact) => ({
       ...prevContact,
       [name]: value,
@@ -45,7 +65,51 @@ const Popup = ({ contact, onClose, onSave }) => {
         profilePic: uploadedImage,
       }));
     }
-
+    if(!validateEmail(editedContact.email))
+    {
+      toast.error('Invalid email address.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return
+    }
+    if(!validatePhoneNumber(editedContact.phoneNumber))
+    {
+      toast.error('Invalid phone number.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    if(!validateName(editedContact.name))
+    {
+      toast.error('Invalid name.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+    if(!editedContact.profilePic && uploadedImage) {
+      setEditedContact((prevContact) => ({
+        ...prevContact,
+        profilePic: "https://res.cloudinary.com/dnhslyteh/image/upload/v1692808859/male-profile-flat-blue-simple-icon-with-long-shadow_esfk41.jpg",
+      }));
+    }
     onSave(editedContact);
     onClose();
   };
