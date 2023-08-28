@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import axios from 'axios';
 import Navbar from './Navbar';
 import ContactCard from './ContactCard';
@@ -9,15 +7,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../context/AuthContext';
 const Home = () => {
-  const navigate = useNavigate();
     const [contacts, setContacts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedContactId, setSelectedContactId] = useState(null);
     const [sortBy, setSortBy] = useState('name'); // Default sorting by name
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedAction, setSelectedAction] = useState(null);
     const [selectedContact, setSelectedContact] = useState(null);
-    const [editingContact, setEditingContact] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { logout,setuser,user } = useAuth();
  
@@ -156,79 +150,79 @@ const Home = () => {
         closePopup();
       };
     const contactsPerPage = 9;
-  const data = [
-    {
-      "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com",
-      "phoneNumber": "123-456-7890",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 2,
-      "name": "Jane Smith",
-      "email": "jane@example.com",
-      "phoneNumber": "987-654-3210",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 3,
-      "name": "Michael Johnson",
-      "email": "michael@example.com",
-      "phoneNumber": "555-123-4567",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 4,
-      "name": "Emily Brown",
-      "email": "emily@example.com",
-      "phoneNumber": "444-555-6666",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 5,
-      "name": "William Davis",
-      "email": "william@example.com",
-      "phoneNumber": "777-888-9999",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 6,
-      "name": "Olivia Wilson",
-      "email": "olivia@example.com",
-      "phoneNumber": "222-333-4444",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 7,
-      "name": "James Brown",
-      "email": "james@example.com",
-      "phoneNumber": "555-666-7777",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 8,
-      "name": "Sophia Martinez",
-      "email": "aophia@example.com",
-      "phoneNumber": "888-999-0000",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 9,
-      "name": "Liam Anderson",
-      "email": "aiam@example.com",
-      "phoneNumber": "111-222-3333",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    {
-      "id": 10,
-      "name": "Ava Johnson",
-      "email": "ava@example.com",
-      "phoneNumber": "444-555-6666",
-      "profilePic": "https://via.placeholder.com/150"
-    },
-    // ... Repeat for 40 more entries ...
-  ]
+  // const data = [
+  //   {
+  //     "id": 1,
+  //     "name": "John Doe",
+  //     "email": "john@example.com",
+  //     "phoneNumber": "123-456-7890",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 2,
+  //     "name": "Jane Smith",
+  //     "email": "jane@example.com",
+  //     "phoneNumber": "987-654-3210",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 3,
+  //     "name": "Michael Johnson",
+  //     "email": "michael@example.com",
+  //     "phoneNumber": "555-123-4567",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 4,
+  //     "name": "Emily Brown",
+  //     "email": "emily@example.com",
+  //     "phoneNumber": "444-555-6666",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 5,
+  //     "name": "William Davis",
+  //     "email": "william@example.com",
+  //     "phoneNumber": "777-888-9999",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 6,
+  //     "name": "Olivia Wilson",
+  //     "email": "olivia@example.com",
+  //     "phoneNumber": "222-333-4444",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 7,
+  //     "name": "James Brown",
+  //     "email": "james@example.com",
+  //     "phoneNumber": "555-666-7777",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 8,
+  //     "name": "Sophia Martinez",
+  //     "email": "aophia@example.com",
+  //     "phoneNumber": "888-999-0000",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 9,
+  //     "name": "Liam Anderson",
+  //     "email": "aiam@example.com",
+  //     "phoneNumber": "111-222-3333",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   {
+  //     "id": 10,
+  //     "name": "Ava Johnson",
+  //     "email": "ava@example.com",
+  //     "phoneNumber": "444-555-6666",
+  //     "profilePic": "https://via.placeholder.com/150"
+  //   },
+  //   // ... Repeat for 40 more entries ...
+  // ]
   
  
   
@@ -320,7 +314,6 @@ const Home = () => {
             <ContactCard
             key={contact._id}
             contact={contact}
-            isSelected={selectedContactId === contact._id}
             onSelect={() => {}}
             onEdit={() => handleEdit(contact)}
             onDelete={() => handleDelete(contact._id)}
