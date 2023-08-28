@@ -7,7 +7,6 @@ import ContactCard from './ContactCard';
 import Popup from './Popup';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Toaster } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 const Home = () => {
   const navigate = useNavigate();
