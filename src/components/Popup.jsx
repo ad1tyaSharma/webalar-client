@@ -41,7 +41,7 @@ const Popup = ({ contact, onClose, onSave }) => {
       formData.append('public_id', `weblar-contacts/${v4()}`);
       formData.append('upload_preset', 'webalar-assignment');
 
-      
+      toast("Uploading Image, Please wait!")
       // Upload the image to Cloudinary
       fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`, {
         method: 'POST',
