@@ -48,6 +48,7 @@ function Login() {
       });
       return;
     }
+    toast("Logging you in, Please wait!")
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         email,
