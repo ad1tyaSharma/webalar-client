@@ -87,7 +87,7 @@ const Home = () => {
     const handleSave = (editedContact) => {
         if (selectedContact) {
           // Edit existing contact
-          axios.post(`/contact/edit/${selectedContact._id}`, editedContact)
+          axios.post(`${process.env.REACT_APP_API_URL}/contact/edit/${selectedContact._id}`, editedContact)
             .then(response => {
               //console.log(response.data);
               const updatedContacts = contacts.map(contact =>
