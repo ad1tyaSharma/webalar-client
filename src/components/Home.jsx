@@ -87,7 +87,7 @@ const Home = () => {
     const handleSave = (editedContact) => {
         if (selectedContact) {
           // Edit existing contact
-          axios.post(`/contact/edit/${selectedContact._id}`, editedContact,{headers: {
+          axios.put(`/contact/edit/${selectedContact._id}`, editedContact,{headers: {
             'Content-Type': 'application/json', 
           },})
             .then(response => {
