@@ -5,7 +5,7 @@ This repository contains the React frontend for the Contact Management applicati
 
 ## Demo
 
-Check out the live demo of the Todo React App: [Demo Link](https://webalar-client.netlify.app)<br/>
+Check out the live demo of the Webalar App: [Demo Link](https://webalar-client.netlify.app)<br/>
 Demo User,<br/>
 Email : user@test.com<br/>
 Password : 123456<br/>
