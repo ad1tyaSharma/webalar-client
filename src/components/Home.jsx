@@ -87,9 +87,7 @@ const Home = () => {
     const handleSave = (editedContact) => {
         if (selectedContact) {
           // Edit existing contact
-          axios.put(`/contact/edit/${selectedContact._id}`, editedContact,{headers: {
-            'Content-Type': 'application/json', 
-          },})
+          axios.put(`/contact/edit/${selectedContact._id}`, editedContact)
             .then(response => {
               //console.log(response.data);
               const updatedContacts = contacts.map(contact =>
