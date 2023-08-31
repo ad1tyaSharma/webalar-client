@@ -17,6 +17,7 @@ const Home = () => {
  
   const getUser = async(id)=>
   {
+      toast("Fetching User, Please wait!")
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/${id}`);
       setuser(response.data.user);
@@ -27,6 +28,7 @@ const Home = () => {
   }
   const getContacts = async(id)=>
   {
+      toast("Fetching Contacts, Please wait!")
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/contact/allContacts`, {
         createdBy : id
@@ -46,6 +48,7 @@ const Home = () => {
     openPopup(contact);
   };
   const handleDelete = async (contactId) => {
+      toast("Deleting Contact, Please wait!")
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/contact/delete/${contactId}`);
       const updatedContacts = contacts.filter(contact => contact._id !== contactId);
@@ -86,6 +89,7 @@ const Home = () => {
   };
     const handleSave = (editedContact) => {
         if (selectedContact) {
+            toast("Updating Contact, Please wait!")
           // Edit existing contact
           axios.put(`${process.env.REACT_APP_API_URL}/contact/edit/${selectedContact._id}`, editedContact)
             .then(response => {
@@ -117,6 +121,7 @@ const Home = () => {
               console.error("Error editing contact:", error);
             });
         } else {
+            toast("Saving Contact, Please wait!")
           axios.post(`${process.env.REACT_APP_API_URL}/contact/create`, {...editedContact,createdBy: user._id})
             .then(response => {
               toast.success("Contact Created!", {
