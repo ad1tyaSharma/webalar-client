@@ -1,7 +1,7 @@
 # Contact Management React Frontend
 
 This repository contains the React frontend for the Contact Management application.
-![Webalar App Screenshot](./public/contactmanger.gif)
+![Webalar App Screenshot](./public/contactmanager.gif)
 
 ## Demo
 
